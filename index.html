@@ -1,1 +1,149 @@
-<script>location='http://sapegin.me/'</script>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Artem Sapegin’s open source projects</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="format-detection" content="telephone=no">
+
+<style>
+body {
+	padding: 10px 30px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+h1 {
+	margin: 0 0 20px 0;
+	font-size: 36px;
+	font-weight: normal;
+}
+
+a,
+a:link,
+a:visited {
+	color: #e08c3b;
+}
+a:hover,
+a:active,
+a:focus {
+	color: #d37135;
+}
+
+.projects {
+	display: flex;
+	flex-wrap: wrap;
+	margin-left: -10px;
+	margin-right: -10px;
+}
+
+.project {
+	width: 520px;
+	margin: 10px;
+	padding: 20px;
+	border: 1px solid #ccc;
+}
+.project__section {
+	margin-bottom: 20px;
+}
+.project__section:last-child {
+	margin-bottom: 0;
+}
+.project__title {
+	margin: 0 0 20px;
+	font-size: 24px;
+	font-weight: normal;
+}
+.project__subtitle {
+	margin: 0 0 10px;
+	font-size: 20px;
+	font-weight: normal;
+}
+
+.footer {
+	margin-top: 40px;
+	font-size: 14px;
+}
+</style>
+</head>
+<body>
+<h1>Artem Sapegin’s open source projects</h1>
+
+<div id="projects" class="projects"></div>
+<script>
+const USERNAME = 'sapegin';
+const PROJECTS = [
+	{ org: 'styleguidist', repo: 'react-styleguidist' },
+	{ repo: 'mrm' },
+	{ repo: 'mrm-core' },
+	{ repo: 'fledermaus' },
+	{ repo: 'richtypo.js' },
+	{ repo: 'react-group' },
+	{ repo: 'textlint-rule-terminology' },
+	{ repo: 'proselint' },
+	{ repo: 'expect-react-shallow' },
+	{ repo: 'react-pagify-preset-bootstrap' },
+	{ repo: 'fontoptim' },
+	{ repo: 'social-likes' },
+	{ repo: 'social-likes-next' },
+	{ repo: 'grunt-bower-concat' },
+	{ repo: 'grunt-webfont' },
+	{ repo: 'grunt-imgo' },
+	{ org: 'tamiadev', repo: 'semantic-release-tamia' },
+];
+
+function shield(content, label) {
+	return `<img src="https://img.shields.io/${content}.svg?label=${label}&style=flat&maxAge=3600">`;
+}
+
+function nodico(npm) {
+	return `<img src="https://nodei.co/npm-dl/${npm}.png?months=12">`;
+}
+
+function project(props) {
+	const repo = `${props.org || USERNAME}/${props.repo}`;
+	return `
+		<div class="project">
+			<h2 class="project__title">
+				<a href="https://github.com/${repo}">${repo}</a>
+			</h2>
+
+			<section class="project__section">
+				${nodico(props.repo)}
+			</section>
+
+			<section class="project__section">
+				<h3 class="project__subtitle">Downloads and stars</h3>
+				${shield(`npm/dm/${props.repo}`, 'npm')}
+				&nbsp;
+				${shield(`github/stars/${repo}`, '&#10029;')}
+			</section>
+			
+			<section class="project__section">
+				<h3 class="project__subtitle">Activity</h3>
+				${shield(`github/commits-since/${repo}/${encodeURIComponent("master@{6 months ago}")}`, '3 months')}
+				${shield(`github/contributors/${repo}`, 'contributors')}
+			</section>
+			
+			<section class="project__section">
+				<h3 class="project__subtitle">Issues and PRs</h3>
+				${shield(`github/issues-raw/${repo}`, 'issues')}
+				&nbsp;
+				${shield(`github/issues-pr-raw/${repo}`, 'PRs')}			
+				&nbsp;
+				${shield(`issuestats/i/github/${repo}`, 'issue closure')}
+				&nbsp;
+				${shield(`issuestats/p/github/${repo}`, 'PR closure')}
+			</section>
+		</div>
+	`;
+}
+
+document.getElementById('projects').innerHTML = PROJECTS.map(project).join('\n');
+</script>
+
+<footer class="footer">
+	© 2017 <a href="http://sapegin.me">Artem Sapegin</a>
+</footer>
+</body>
+</html>
